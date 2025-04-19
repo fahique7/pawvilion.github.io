@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - Pawvilion</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo1.PNG" alt="Pawvilion Logo">
+                    <span>Pawvilion</span>
+                </a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="cart.html" class="cart-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="cart-main">
+        <div class="container">
+            <h1>Your Shopping Cart</h1>
+            
+            <div class="cart-container">
+                <div class="cart-items" id="cart-items">
+                    <!-- Cart items will be dynamically inserted here -->
+                </div>
+                
+                <div class="cart-summary">
+                    <h2>Order Summary</h2>
+                    <div class="summary-details">
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span id="cart-subtotal">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span id="cart-shipping">Calculated at checkout</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax</span>
+                            <span id="cart-tax">Calculated at checkout</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total</span>
+                            <span id="cart-total">$0.00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="coupon-code">
+                        <input type="text" placeholder="Enter coupon code" id="coupon-input">
+                        <button class="btn btn-secondary" id="apply-coupon">Apply</button>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-checkout" id="proceed-checkout">Proceed to Checkout</button>
+                    
+                    <div class="payment-methods">
+                        <img src="images/payment-methods.webp" alt="Accepted payment methods">
+                    </div>
+                </div>
+            </div>
+            
+            <section class="recommendations">
+                <h2>You Might Also Like</h2>
+                <div class="products-grid" id="recommended-products">
+                    <!-- Recommended products loaded via JavaScript (optional) -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Pawvilion offers high-quality pet accessories for your beloved companions.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="cart.html">Cart</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: info@pawvilion.com</p>
+                <p>Phone: (123) 456-7890</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 Pawvilion. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript to handle cart display -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const cartItemsContainer = document.getElementById("cart-items");
+            const subtotalEl = document.getElementById("cart-subtotal");
+            const totalEl = document.getElementById("cart-total");
+
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="empty-cart-message">
+                        <p>Your cart is empty</p>
+                        <a href="shop.html" class="btn btn-primary">Continue Shopping</a>
+                    </div>
+                `;
+            } else {
+                cartItemsContainer.innerHTML = "";
+                let subtotal = 0;
+
+                cart.forEach(item => {
+                    const itemDiv = document.createElement("div");
+                    itemDiv.classList.add("cart-item");
+                    itemDiv.innerHTML = `
+                        <div class="cart-item-details">
+                            <strong>${item.name}</strong><br>
+                            Price: $${item.price.toFixed(2)}
+                        </div>
+                    `;
+                    cartItemsContainer.appendChild(itemDiv);
+                    subtotal += item.price;
+                });
+
+                subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+                totalEl.textContent = `$${subtotal.toFixed(2)}`;
+            }
+        });
+    </script>
+</body>
+</html>
